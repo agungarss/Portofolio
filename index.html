@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dark': '#121212',
+                        'dark-secondary': '#1E1E1E',
+                        'dark-tertiary': '#2C2C2C',
+                        'border': '#3A3A3A',
+                        'text-primary': '#EAEAEA',
+                        'text-secondary': '#B3B3B3',
+                        'text-tertiary': '#808080',
+                        'accent': '#00A9FF',
+                        'accent-secondary': '#3D72A4',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* Scroll Progress Bar */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(to right, #00A9FF, #3D72A4);
+            width: 0%;
+            z-index: 100;
+            transition: width 0.1s ease-out;
+        }
+
+        /* Efek Teks Gradien */
+        .gradient-text {
+            background: linear-gradient(to right, #00A9FF, #EAEAEA);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Bayangan Teks */
+        .text-shadow {
+            text-shadow: 0 0 15px rgba(0, 169, 255, 0.3);
+        }
+
+        /* Efek Glow saat Hover */
+        .hover-glow {
+            transition: all 0.3s ease;
+            box-shadow: 0 0 5px rgba(0, 169, 255, 0);
+        }
+
+        .hover-glow:hover {
+            box-shadow: 0 0 20px rgba(0, 169, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        /* Jendela Terminal */
+        .terminal-window {
+            background-color: #1E1E1E;
+            border: 1px solid #3A3A3A;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .terminal-header {
+            background-color: #2C2C2C;
+            border-bottom: 1px solid #3A3A3A;
+        }
+
+        /* Blok Kode */
+        .code-block {
+            background-color: rgba(44, 44, 44, 0.5);
+            border: 1px solid #3A3A3A;
+            backdrop-filter: blur(5px);
+        }
+
+        .syntax-highlight .keyword {
+            color: #3D72A4;
+        }
+
+        .syntax-highlight .variable {
+            color: #00A9FF;
+        }
+
+        .syntax-highlight .string {
+            color: #EAEAEA;
+        }
+
+        .syntax-highlight .function {
+            color: #00A9FF;
+        }
+
+        .syntax-highlight .comment {
+            color: #808080;
+        }
+
+        /* Skill Bar */
+        .skill-progress {
+            background: linear-gradient(to right, #3D72A4, #00A9FF);
+            transition: width 1.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+            width: 0;
+            /* Awalnya 0, diatur oleh JS */
+        }
+
+        /* Timeline Pengalaman */
+        .experience-timeline .timeline-item {
+            position: relative;
+            padding-left: 30px;
+            padding-bottom: 30px;
+            border-left: 2px solid #3A3A3A;
+        }
+
+        .experience-timeline .timeline-item:last-child {
+            border-left: 2px solid transparent;
+            padding-bottom: 0;
+        }
+
+        .experience-timeline .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -9px;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: #00A9FF;
+            border: 2px solid #121212;
+        }
+
+        /* Animasi */
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animated {
+            opacity: 0;
+            /* Awalnya tidak terlihat */
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        /* Efek Ketik */
+        .typing-effect {
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: .15em solid #00A9FF;
+            animation: typing 2s steps(40, end), blink-caret .75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from {
+                width: 0
+            }
+
+            to {
+                width: 100%
+            }
+        }
+
+        @keyframes blink-caret {
+
+            from,
+            to {
+                border-color: transparent
+            }
+
+            50% {
+                border-color: #00A9FF;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-dark text-text-secondary font-sans leading-relaxed antialiased selection:bg-accent/20">
+
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Dekorasi Latar Belakang -->
+    <div class="fixed top-20 left-10 opacity-10 text-accent font-mono text-xs animate-float hidden lg:block">
+        &lt;/&gt;
+    </div>
+    <div class="fixed bottom-20 right-10 opacity-10 text-accent-secondary font-mono text-xs animate-float hidden lg:block"
+        style="animation-delay: 2s;">
+        { }
+    </div>
+
+    <header class="fixed top-0 w-full z-50 backdrop-blur-xl bg-dark/80 border-b border-border">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-xl font-bold text-text-primary font-mono gradient-text">
+                &lt;SR/&gt;
+            </a>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#skills"
+                    class="text-sm font-mono hover:text-accent transition-all duration-300 relative group">
+                    <span class="text-accent">01.</span>skills
+                    <span
+                        class="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#tentang"
+                    class="text-sm font-mono hover:text-accent transition-all duration-300 relative group">
+                    <span class="text-accent">02.</span>tentang
+                    <span
+                        class="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#proyek"
+                    class="text-sm font-mono hover:text-accent transition-all duration-300 relative group">
+                    <span class="text-accent">03.</span>proyek
+                    <span
+                        class="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#kontak"
+                    class="text-sm font-mono hover:text-accent transition-all duration-300 relative group">
+                    <span class="text-accent">04.</span>kontak
+                    <span
+                        class="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#" target="_blank"
+                    class="text-accent border border-accent px-4 py-2 rounded-md hover:bg-accent/10 transition-all duration-300 font-mono text-sm hover-glow">
+                    resume.pdf
+                </a>
+                <a href="#" id="lang-id"
+                    class="flex items-center text-text-tertiary hover:text-accent transition-colors px-2"
+                    title="Bahasa Indonesia">
+                    <img src="https://cdn.jsdelivr.net/gh/hjnilsson/country-flags/svg/id.svg" alt="ID"
+                        class="w-5 h-5 mr-1">ID
+                </a>
+                <a href="#" id="lang-en"
+                    class="flex items-center text-text-tertiary hover:text-accent transition-colors px-2"
+                    title="English">
+                    <img src="https://cdn.jsdelivr.net/gh/hjnilsson/country-flags/svg/gb.svg" alt="EN"
+                        class="w-5 h-5 mr-1">EN
+                </a>
+            </div>
+            <button class="md:hidden focus:outline-none text-text-primary" id="mobileMenuBtn">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7">
+                    </path>
+                </svg>
+            </button>
+        </nav>
+
+        <div class="md:hidden hidden bg-dark/95 backdrop-blur-xl border-t border-border" id="mobileMenu">
+            <div class="container mx-auto px-6 py-4 space-y-4">
+                <a href="#skills" class="block text-sm font-mono hover:text-accent transition-colors">
+                    <span class="text-accent">01.</span>skills
+                </a>
+                <a href="#tentang" class="block text-sm font-mono hover:text-accent transition-colors">
+                    <span class="text-accent">02.</span>tentang
+                </a>
+                <a href="#proyek" class="block text-sm font-mono hover:text-accent transition-colors">
+                    <span class="text-accent">03.</span>proyek
+                </a>
+                <a href="#kontak" class="block text-sm font-mono hover:text-accent transition-colors">
+                    <span class="text-accent">04.</span>kontak
+                </a>
+                <a href="#" target="_blank"
+                    class="block text-accent border border-accent px-4 py-2 rounded-md hover:bg-accent/10 transition-all duration-300 font-mono text-sm w-fit">
+                    resume.pdf
+                </a>
+                <div class="flex gap-2 mt-4">
+                    <a href="#" id="lang-id-mobile"
+                        class="flex items-center text-text-tertiary hover:text-accent transition-colors px-2"
+                        title="Bahasa Indonesia">
+                        <img src="https://cdn.jsdelivr.net/gh/hjnilsson/country-flags/svg/id.svg" alt="ID"
+                            class="w-5 h-5 mr-1">ID
+                    </a>
+                    <a href="#" id="lang-en-mobile"
+                        class="flex items-center text-text-tertiary hover:text-accent transition-colors px-2"
+                        title="English">
+                        <img src="https://cdn.jsdelivr.net/gh/hjnilsson/country-flags/svg/gb.svg" alt="EN"
+                            class="w-5 h-5 mr-1">EN
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 relative z-10">
+        <section id="hero" class="min-h-screen flex items-center max-w-6xl mx-auto pt-20">
+            <div class="grid md:grid-cols-2 gap-12 items-center w-full">
+                <!-- Kolom Kiri: Terminal dan Teks -->
+                <div class="space-y-6">
+                    <p class="text-accent font-mono text-lg animated" style="animation-delay: 0.6s;">
+                        console.log("Hello, I'm");
+                    </p>
+                    <p class="gradient-text font-mono text-lg animated" style="animation-delay: 0.6s;">
+                        I Gusti Ngurah Agung Aris Sidhi Rastu
+                        <br>A.K.A
+                    </p>
+                    <h1 class="text-5xl md:text-7xl font-bold text-text-primary animated text-shadow"
+                        style="animation-delay: 0.8s;">
+                        Gung
+                        <span class="gradient-text">Aris</span>
+                    </h1>
+                    <h2 class="text-2xl md:text-3xl font-bold text-text-secondary animated"
+                        style="animation-delay: 1s;">
+                        Frontend Developer & UI/UX Designer <span class="text-accent font-mono text-base">| Pernah
+                            Fullstack</span>
+                    </h2>
+                    <div class="code-block p-6 rounded-lg animated hover-glow" style="animation-delay: 1.2s;">
+                        <div class="font-mono text-sm syntax-highlight">
+                            <span class="keyword">const</span> <span class="variable">developer</span> = <span
+                                class="text-text-secondary">{</span><br>
+                            &nbsp;&nbsp;<span class="string">name</span>: <span class="string">"Gung Aris"</span>,<br>
+                            &nbsp;&nbsp;<span class="string">passion</span>: <span class="string">"Building amazing
+                                digital experiences"</span>,<br>
+                            &nbsp;&nbsp;<span class="string">focus</span>: <span class="string">"Clean code &
+                                user-centric solutions"</span>,<br>
+                            &nbsp;&nbsp;<span class="function">currentStatus</span>(): <span class="string">"Available
+                                for opportunities"</span><br>
+                            <span class="text-text-secondary">};</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Kolom Kanan: Foto Profil -->
+                <div class="flex justify-center animated" style="animation-delay: 0.4s;">
+                    <div class="relative group">
+                        <div
+                            class="absolute -inset-2 bg-gradient-to-r from-accent to-accent-secondary rounded-2xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity duration-500">
+                        </div>
+                        <div
+                            class="relative w-80 h-96 bg-dark-secondary rounded-2xl border border-border overflow-hidden hover-glow">
+                            <img src="/src/assets/img/non formal.jpg" alt="Gung Aris"
+                                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-dark to-transparent p-6">
+                                <div class="font-mono text-xs text-accent">~/profile.jpg</div>
+                                <div class="text-text-primary font-semibold">Gung Aris</div>
+                                <div class="text-text-secondary text-sm">Frontend Developer</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tentang" class="py-24">
+            <h2 class="text-3xl font-bold text-text-primary mb-12 font-mono animated">
+                <span class="text-accent">&lt;</span>about<span class="gradient-text">ME</span>
+                <span class="text-accent">/&gt;</span>
+            </h2>
+            <div class="grid md:grid-cols-5 gap-12 items-center">
+                <div class="md:col-span-3 space-y-6 animated" style="animation-delay: 0.2s;">
+                    <div class="code-block p-8 rounded-lg text-base">
+                        <p class="text-text-secondary leading-relaxed mb-4 text-justify">
+                            Saya adalah mahasiswa semester 4 akhir Program Studi D3 Manajemen Informatika di Politeknik
+                            Negeri Bali yang memiliki minat utama pada front-end development dan UI/UX design. Saya
+                            terbiasa menggunakan HTML, CSS, JavaScript, serta framework seperti Bootstrap dan Tailwind.
+                            Dalam mendesain antarmuka, saya juga menggunakan Figma untuk menghasilkan desain yang
+                            estetis, responsif, dan mudah digunakan. Selain itu, saya juga memiliki pengalaman
+                            menggunakan CodeIgniter (PHP) dan pengelolaan database menggunakan MySQL.
+                        </p>
+                        <p class="text-text-secondary leading-relaxed text-justify">
+                            Saya adalah pribadi yang senang belajar hal baru, terbiasa bekerja secara tim maupun
+                            mandiri, serta memiliki kemampuan komunikasi yang baik. Saya juga terbiasa berpikir kritis
+                            dan terorganisir dalam menyelesaikan tugas, serta mampu beradaptasi dengan cepat terhadap
+                            teknologi atau lingkungan kerja yang dinamis. Dengan kombinasi kemampuan teknis dan soft
+                            skill ini, saya siap untuk terus berkembang dan memberikan kontribusi terbaik.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="md:col-span-2 flex justify-center animated" style="animation-delay: 0.4s;">
+                    <div class="relative group w-full max-w-xs">
+                        <div
+                            class="absolute -inset-1.5 bg-gradient-to-r from-accent to-accent-secondary rounded-xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity duration-500">
+                        </div>
+
+                        <div
+                            class="relative bg-dark-secondary rounded-xl border-2 border-border/30 overflow-hidden hover-glow">
+                            <div class="relative">
+                                <img src="/src/assets/img/jenengku 2.jpg" alt="Gung Aris"
+                                    class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
+
+                                <div class="absolute inset-0 bg-gradient-to-t from-dark/70 via-transparent to-dark/20">
+                                </div>
+                                <div class="absolute inset-0 bg-[url('/path/to/scanlines.png')] bg-repeat opacity-5">
+                                </div>
+
+                                <div
+                                    class="absolute inset-0 bg-accent opacity-0 group-hover:opacity-10 transition-opacity duration-300 mix-blend-color">
+                                </div>
+                            </div>
+
+                            <div class="absolute inset-0 p-4 flex flex-col">
+                                <div
+                                    class="absolute top-2 left-2 w-5 h-5 border-t-2 border-l-2 border-accent/70 group-hover:border-accent transition-colors">
+                                </div>
+                                <div
+                                    class="absolute top-2 right-2 w-5 h-5 border-t-2 border-r-2 border-accent/70 group-hover:border-accent transition-colors">
+                                </div>
+                                <div
+                                    class="absolute bottom-2 left-2 w-5 h-5 border-b-2 border-l-2 border-accent/70 group-hover:border-accent transition-colors">
+                                </div>
+                                <div
+                                    class="absolute bottom-2 right-2 w-5 h-5 border-b-2 border-r-2 border-accent/70 group-hover:border-accent transition-colors">
+                                </div>
+
+                                <div class="mt-auto">
+                                    <p class="font-mono text-xs text-accent">USER_PROFILE::GUNG_ARIS</p>
+                                    <h3 class="text-lg font-bold text-text-primary leading-tight">Gung Aris</h3>
+                                    <p class="text-sm text-text-secondary">Status: <span
+                                            class="text-green-400">Online</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="py-24">
+            <h2 class="text-3xl font-bold text-text-primary mb-12 font-mono animated">
+                <span class="text-accent">&lt;</span>skills<span class="text-accent">/&gt;</span>
+            </h2>
+            <div class="grid md:grid-cols-3 gap-12">
+                <div class="space-y-6 animated" style="animation-delay: 0.2s;">
+                    <div class="terminal-window rounded-lg overflow-hidden hover-glow">
+                        <div class="terminal-header px-4 py-2 flex items-center gap-2">
+                            <div class="flex gap-2">
+                                <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                                <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                                <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                            </div>
+                            <div class="text-text-tertiary text-xs font-mono ml-4">~/skills/design-uiux</div>
+                        </div>
+                        <div class="p-6 grid grid-cols-2 gap-6">
+                            <!-- Card Skill: Figma -->
+                            <div class="bg-dark-tertiary rounded-lg p-5 flex flex-col items-center shadow hover-glow">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg"
+                                    alt="Figma" class="w-12 h-12 mb-2">
+                                <span class="text-text-primary font-semibold">Figma</span>
+                                <span class="text-accent font-mono text-xs mt-1">UI/UX Design</span>
+                            </div>
+                            <!-- Card Skill: Canva -->
+                            <div class="bg-dark-tertiary rounded-lg p-5 flex flex-col items-center shadow hover-glow">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/canva/canva-original.svg"
+                                    alt="Canva" class="w-12 h-12 mb-2">
+                                <span class="text-text-primary font-semibold">Canva</span>
+                                <span class="text-accent font-mono text-xs mt-1">Design</span>
+                            </div>
+                            <!-- Card Skill: Photoshop & Illustrator -->
+                            <div class="bg-dark-tertiary rounded-lg p-5 flex flex-col items-center shadow hover-glow">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/photoshop/photoshop-plain.svg"
+                                        alt="Photoshop" class="w-8 h-8">
+                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/illustrator/illustrator-plain.svg"
+                                        alt="Illustrator" class="w-8 h-8">
+                                </div>
+                                <span class="text-text-primary font-semibold text-center">Photoshop & Illustrator</span>
+                                <span class="text-accent font-mono text-xs mt-1">Editing</span>
+                            </div>
+                            <!-- Card Skill: Premiere Pro -->
+                            <div class="bg-dark-tertiary rounded-lg p-5 flex flex-col items-center shadow hover-glow">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/premierepro/premierepro-plain.svg"
+                                    alt="Premiere Pro" class="w-12 h-12 mb-2">
+                                <span class="text-text-primary font-semibold">Premiere Pro</span>
+                                <span class="text-accent font-mono text-xs mt-1">Video</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-y-6 animated" style="animation-delay: 0.4s;">
+                    <div class="terminal-window rounded-lg overflow-hidden hover-glow">
+                        <div class="terminal-header px-4 py-2 flex items-center gap-2">
+                            <div class="flex gap-2">
+                                <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                                <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                                <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                            </div>
+                            <div class="text-text-tertiary text-xs font-mono ml-4">~/skills/frontend-dev</div>
+                        </div>
+                        <div class="p-6 grid grid-cols-2 gap-6">
+                            <!-- Card Skill: HTML5 -->
+                            <div class="bg-dark-tertiary rounded-lg p-5 flex flex-col items-center shadow hover-glow">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg"
+                                    alt="HTML5" class="w-12 h-12 mb-2">
+                                <span class="text-text-primary font-semibold">HTML5</span>
+                                <span class="text-accent font-mono text-xs mt-1">Markup</span>
+                            </div>
+                            <!-- Card Skill: CSS3 & Tailwind -->
+                            <div class="bg-dark-tertiary rounded-lg p-5 flex flex-col items-center shadow hover-glow">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg"
+                                        alt="CSS3" class="w-8 h-8">
+                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg"
+                                        alt="Tailwind CSS" class="w-8 h-8">
+                                </div>
+                                <span class="text-text-primary font-semibold">CSS3 & Tailwind</span>
+                                <span class="text-accent font-mono text-xs mt-1">Styling</span>
+                            </div>
+                            <!-- Card Skill: JavaScript -->
+                            <div class="bg-dark-tertiary rounded-lg p-5 flex flex-col items-center shadow hover-glow">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
+                                    alt="JavaScript" class="w-12 h-12 mb-2">
+                                <span class="text-text-primary font-semibold">JavaScript</span>
+                                <span class="text-accent font-mono text-xs mt-1">Logic</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-y-6 animated" style="animation-delay: 0.6s;">
+                    <div class="terminal-window rounded-lg overflow-hidden hover-glow">
+                        <div class="terminal-header px-4 py-2 flex items-center gap-2">
+                            <div class="flex gap-2">
+                                <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                                <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                                <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                            </div>
+                            <div class="text-text-tertiary text-xs font-mono ml-4">~/skills/fullstack</div>
+                        </div>
+                        <div class="p-6 grid grid-cols-2 gap-6">
+                            <!-- Card Skill: PHP (CodeIgniter) -->
+                            <div class="bg-dark-tertiary rounded-lg p-5 flex flex-col items-center shadow hover-glow">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg"
+                                        alt="PHP" class="w-8 h-8">
+                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/codeigniter/codeigniter-plain.svg"
+                                        alt="CodeIgniter" class="w-8 h-8">
+                                </div>
+                                <span class="text-text-primary font-semibold">PHP (CodeIgniter)</span>
+                                <span class="text-accent font-mono text-xs mt-1">Backend</span>
+                            </div>
+                            <!-- Card Skill: MySQL -->
+                            <div class="bg-dark-tertiary rounded-lg p-5 flex flex-col items-center shadow hover-glow">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg"
+                                    alt="MySQL" class="w-12 h-12 mb-2">
+                                <span class="text-text-primary font-semibold">MySQL</span>
+                                <span class="text-accent font-mono text-xs mt-1">Database</span>
+                            </div>
+                            <!-- Card Skill: MongoDB -->
+                            <div class="bg-dark-tertiary rounded-lg p-5 flex flex-col items-center shadow hover-glow">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg"
+                                    alt="MongoDB" class="w-12 h-12 mb-2">
+                                <span class="text-text-primary font-semibold">MongoDB</span>
+                                <span class="text-accent font-mono text-xs mt-1">NoSQL</span>
+                            </div>
+                            <!-- Card Skill: Node.js -->
+                            <div class="bg-dark-tertiary rounded-lg p-5 flex flex-col items-center shadow hover-glow">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg"
+                                    alt="Node.js" class="w-12 h-12 mb-2">
+                                <span class="text-text-primary font-semibold">Node.js</span>
+                                <span class="text-accent font-mono text-xs mt-1">Runtime</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience" class="py-24">
+            <h2 class="text-3xl font-bold text-text-primary mb-12 font-mono animated">
+                <span class="text-accent">&lt;</span>experience<span class="text-accent">/&gt;</span>
+            </h2>
+            <div class="experience-timeline max-w-3xl mx-auto">
+                <div class="timeline-item animated" style="animation-delay: 0.2s;">
+                    <div class="code-block p-6 rounded-lg hover-glow">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xl font-bold text-text-primary">UKM Computer Club</h3>
+                            <span class="text-accent font-mono text-sm">2023 - 2024</span>
+                        </div>
+                        <p class="text-text-secondary mb-4">
+                            Memimpin pengembangan platform e-commerce dengan React & Node.js. Mengoptimalkan performa
+                            aplikasi hingga 40% dan mengelola tim developer junior.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="px-2 py-1 bg-dark-secondary border border-accent/30 rounded text-xs text-accent">React</span>
+                            <span
+                                class="px-2 py-1 bg-dark-secondary border border-accent/30 rounded text-xs text-accent">Node.js</span>
+                            <span
+                                class="px-2 py-1 bg-dark-secondary border border-accent/30 rounded text-xs text-accent">AWS</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item animated" style="animation-delay: 0.4s;">
+                    <div class="code-block p-6 rounded-lg hover-glow">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xl font-bold text-text-primary">Full Stack Developer</h3>
+                            <span class="text-accent font-mono text-sm">2021 - 2023</span>
+                        </div>
+                        <div class="text-accent-secondary font-mono text-sm mb-2">Digital Agency Jakarta</div>
+                        <p class="text-text-secondary mb-4">
+                            Mengembangkan berbagai aplikasi web untuk klien dari berbagai industri. Fokus pada clean
+                            code dan best practices dalam pengembangan software.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="px-2 py-1 bg-dark-secondary border border-accent/30 rounded text-xs text-accent">Vue.js</span>
+                            <span
+                                class="px-2 py-1 bg-dark-secondary border border-accent/30 rounded text-xs text-accent">Python</span>
+                            <span
+                                class="px-2 py-1 bg-dark-secondary border border-accent/30 rounded text-xs text-accent">Docker</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="proyek" class="py-24">
+            <h2 class="text-3xl font-bold text-text-primary mb-12 font-mono animated">
+                <span class="text-accent">&lt;</span>projects<span class="text-accent">/&gt;</span>
+            </h2>
+            <div class="space-y-20">
+                <div class="grid md:grid-cols-12 gap-8 items-center animated">
+                    <div class="md:col-span-7">
+                        <a href="https://github.com/agungarss/SIPANDANG"
+                            class="block terminal-window rounded-lg overflow-hidden hover-glow group">
+                            <div class="terminal-header px-4 py-2 flex items-center justify-between">
+                                <div class="flex items-center gap-2">
+                                    <div class="flex gap-2">
+                                        <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                                        <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                                        <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                                    </div>
+                                    <div class="text-text-tertiary text-xs font-mono ml-4">sipandang.app</div>
+                                </div>
+                                <div class="text-text-tertiary text-xs">🚀</div>
+                            </div>
+                            <div class="aspect-video bg-dark-tertiary relative overflow-hidden">
+                                <img src="/src/assets/img/SIPANDANG.png" alt="Proyek SIPANDANG"
+                                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                            </div>
+                        </a>
+                    </div>
+                    <div class="md:col-span-5 space-y-4">
+                        <div class="text-accent-secondary font-mono text-sm">Featured Project | Full Stack</div>
+                        <h3 class="text-2xl font-bold text-text-primary hover:text-accent transition-colors"><a
+                                href="#">SIPANDANG - Sistem Pencatatan Pendatang</a></h3>
+                        <div class="code-block p-6 rounded-lg">
+                            <p class="text-text-secondary text-sm leading-relaxed text-justify">
+                                SIPANDANG (Sistem Pencatatan Data Pendatang) adalah aplikasi web untuk mencatat dan
+                                mengelola data pendatang secara efisien. Dibangun menggunakan PHP dengan framework
+                                CodeIgniter 3, aplikasi ini dilengkapi fitur pemindaian otomatis berbasis JavaScript
+                                menggunakan teknologi OCR (Optical Character Recognition) untuk membaca data dari foto
+                                KTP, sehingga mempermudah input data. Selain itu, SIPANDANG juga memiliki fitur
+                                pengiriman email otomatis sebagai notifikasi bagi pengguna yang mendaftar akun. Website
+                                ini menyediakan dashboard admin untuk mengelola data pendatang serta dilengkapi sistem
+                                otentikasi guna menjaga keamanan data. Dengan fitur-fitur tersebut, SIPANDANG menjadi
+                                solusi praktis dalam pencatatan data kependudukan secara digital.
+                            </p>
+                        </div>
+                        <div class="flex flex-wrap gap-3 font-mono text-xs">
+                            <span
+                                class="px-3 py-1 bg-dark-secondary border border-border rounded-full text-accent">CodeIgniter</span>
+                            <span
+                                class="px-3 py-1 bg-dark-secondary border border-border rounded-full text-accent">PHP</span>
+                            <span
+                                class="px-3 py-1 bg-dark-secondary border border-border rounded-full text-accent">Bootstrap
+                                5</span>
+                            <span
+                                class="px-3 py-1 bg-dark-secondary border border-border rounded-full text-accent">MySQL</span>
+                            <span
+                                class="px-3 py-1 bg-dark-secondary border border-border rounded-full text-accent">Javascript</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-12 gap-8 items-center animated">
+                    <div class="md:col-span-5 space-y-4 text-right">
+                        <div class="text-accent-secondary font-mono text-sm">Competition Project | FrontEnd</div>
+                        <h3 class="text-2xl font-bold text-text-primary hover:text-accent transition-colors"><a
+                                href="#">Nusantara Journey</a></h3>
+                        <div class="code-block p-6 rounded-lg text-left">
+                            <p class="text-text-secondary text-sm leading-relaxed text-justify">
+                                Nusantara Journey adalah sebuah website eksplorasi budaya dan pariwisata Indonesia yang
+                                dirancang untuk memperkenalkan kekayaan alam, tradisi, dan warisan budaya Nusantara
+                                kepada masyarakat luas, khususnya generasi muda. Website ini menyajikan informasi
+                                seputar keindahan alam, budaya lokal, upacara adat, kuliner khas daerah, serta
+                                tempat-tempat wisata yang tersebar di seluruh penjuru Indonesia. Dengan tampilan
+                                antarmuka yang interaktif dan modern, Nusantara Journey tidak hanya berfungsi sebagai
+                                sumber informasi, tetapi juga sebagai sarana edukasi digital yang mengangkat nilai-nilai
+                                lokal. Website ini dibangun menggunakan teknologi front-end seperti HTML, CSS, dan
+                                JavaScript, serta dirancang responsif agar dapat diakses dengan nyaman di berbagai
+                                perangkat. Nusantara Journey hadir sebagai bentuk kontribusi digital dalam melestarikan
+                                dan mempromosikan identitas Indonesia yang kaya dan beragam.
+                            </p>
+                        </div>
+                        <div class="flex flex-wrap gap-3 font-mono text-xs justify-end">
+                            <span
+                                class="px-3 py-1 bg-dark-secondary border border-border rounded-full text-accent">HTML5</span>
+                            <span
+                                class="px-3 py-1 bg-dark-secondary border border-border rounded-full text-accent">Tailwind
+                                CSS</span>
+                            <span
+                                class="px-3 py-1 bg-dark-secondary border border-border rounded-full text-accent">JavaScript</span>
+                        </div>
+                    </div>
+                    <div class="md:col-span-7">
+                        <a href="#" class="block terminal-window rounded-lg overflow-hidden hover-glow group">
+                            <div class="terminal-header px-4 py-2 flex items-center justify-between">
+                                <div class="flex items-center gap-2">
+                                    <div class="flex gap-2">
+                                        <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                                        <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                                        <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                                    </div>
+                                    <div class="text-text-tertiary text-xs font-mono ml-4">portfolio-website.dev</div>
+                                </div>
+                                <div class="text-text-tertiary text-xs">✨</div>
+                            </div>
+                            <div class="aspect-video bg-dark-tertiary relative overflow-hidden">
+                                <img src="/src/assets/img/project-portfolio.jpg" alt="Proyek Portofolio"
+                                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="kontak" class="py-24 text-center max-w-3xl mx-auto">
+            <div class="terminal-window rounded-lg overflow-hidden mb-8 animated hover-glow">
+                <div class="terminal-header px-4 py-2 flex items-center gap-2">
+                    <div class="flex gap-2">
+                        <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                        <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                        <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                    </div>
+                    <div class="text-text-tertiary text-xs font-mono ml-4">~/contact-me</div>
+                </div>
+                <div class="p-8 space-y-6">
+                    <h3 class="text-3xl font-bold text-text-primary font-mono animated" style="animation-delay: 0.2s;">
+                        <span class="text-accent">&lt;</span>let's-connect<span class="text-accent">/&gt;</span>
+                    </h3>
+                    <p class="text-text-secondary animated" style="animation-delay: 0.4s;">
+                        Saya selalu terbuka untuk mendiskusikan proyek-proyek menarik, peluang kolaborasi, atau sekadar
+                        berbagi ide tentang teknologi. Mari berkreasi bersama!
+                    </p>
+                    <a href="mailto:gungaris@email.com"
+                        class="inline-block font-mono text-accent border border-accent px-8 py-4 rounded-md hover:bg-accent/10 transition-all duration-300 hover-glow animated"
+                        style="animation-delay: 0.6s;">
+                        $ send --message="hello"
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="text-center py-8 border-t border-border mt-12">
+        <div class="flex justify-center gap-6 mb-6">
+            <a href="#" target="_blank" class="text-text-tertiary hover:text-accent transition-colors"
+                aria-label="GitHub">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                        d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                </svg>
+            </a>
+            <a href="#" target="_blank" class="text-text-tertiary hover:text-accent transition-colors"
+                aria-label="LinkedIn">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                        d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                </svg>
+            </a>
+            <a href="#" target="_blank" class="text-text-tertiary hover:text-accent transition-colors"
+                aria-label="Twitter">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                        d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
+                </svg>
+            </a>
+        </div>
+        <div class="font-mono text-xs text-text-tertiary">
+            <span class="text-accent">const</span> <span class="text-text-secondary">footer</span>
+        </div>
+    </footer>
+
+    <!-- Skrip Kustom (JavaScript) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- Logika Menu Mobile ---
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // --- Logika Scroll Progress ---
+            const scrollProgress = document.getElementById('scrollProgress');
+            window.addEventListener('scroll', () => {
+                const scrollTop = document.documentElement.scrollTop;
+                const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrollPercentage = (scrollTop / scrollHeight) * 100;
+                scrollProgress.style.width = `${scrollPercentage}%`;
+            });
+
+            // --- Logika Animasi saat Scroll ---
+            const animatedElements = document.querySelectorAll('.animated');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Tambahkan delay dari style attribute jika ada
+                        const delay = parseInt(entry.target.style.animationDelay) || 0;
+                        setTimeout(() => {
+                            entry.target.classList.add('fade-in-up');
+                        }, delay);
+
+                        // Animasikan skill bar jika ada
+                        const skillProgress = entry.target.querySelectorAll('.skill-progress');
+                        skillProgress.forEach(bar => {
+                            bar.style.width = bar.getAttribute('data-width');
+                        });
+
+                        observer.unobserve(entry.target); // Hentikan observasi setelah animasi
+                    }
+                });
+            }, {
+                threshold: 0.1 // Munculkan animasi saat 10% elemen terlihat
+            });
+
+            animatedElements.forEach(el => {
+                observer.observe(el);
+            });
+
+            // --- Menutup menu mobile saat link di-klik ---
+            document.querySelectorAll('#mobileMenu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            // --- Language Switcher ---
+            const translations = {
+                id: {
+                    skills: "skills",
+                    tentang: "tentang",
+                    proyek: "proyek",
+                    kontak: "kontak",
+                    resume: "resume.pdf",
+                    heroTitle: "Frontend Developer & UI/UX Designer <span class=\"text-accent font-mono text-base\">| Pernah Fullstack</span>",
+                    heroConsole: 'console.log("Hello World!");',
+                    heroDesc: "Gung<br><span class=\"gradient-text\">Aris</span>",
+                    heroSubtitle: "Frontend Developer & UI/UX Designer <span class=\"text-accent font-mono text-base\">| Pernah Fullstack</span>",
+                    heroCard: [
+                        { label: "Figma (UI/UX)", tag: "Design" },
+                        { label: "HTML5", tag: "Markup" },
+                        { label: "CSS3 & Tailwind", tag: "Styling" },
+                        { label: "JavaScript", tag: "Logic" }
+                    ],
+                    heroCard2: [
+                        { label: "PHP (CodeIgniter)", tag: "Backend" },
+                        { label: "MySQL", tag: "Database" },
+                        { label: "MongoDB", tag: "NoSQL" },
+                        { label: "Node.js", tag: "Runtime" }
+                    ],
+                    experience: "experience",
+                    about: "about",
+                    projects: "projects",
+                    letsConnect: "let's-connect",
+                    contactDesc: "Saya selalu terbuka untuk mendiskusikan proyek-proyek menarik, peluang kolaborasi, atau sekadar berbagi ide tentang teknologi. Mari berkreasi bersama!",
+                    send: '$ send --message="hello"',
+                },
+                en: {
+                    skills: "skills",
+                    tentang: "about",
+                    proyek: "projects",
+                    kontak: "contact",
+                    resume: "resume.pdf",
+                    heroTitle: "Frontend Developer & UI/UX Designer <span class=\"text-accent font-mono text-base\">| Former Fullstack</span>",
+                    heroConsole: 'console.log("Hello World!");',
+                    heroDesc: "Gung<br><span class=\"gradient-text\">Aris</span>",
+                    heroSubtitle: "Frontend Developer & UI/UX Designer <span class=\"text-accent font-mono text-base\">| Former Fullstack</span>",
+                    heroCard: [
+                        { label: "Figma (UI/UX)", tag: "Design" },
+                        { label: "HTML5", tag: "Markup" },
+                        { label: "CSS3 & Tailwind", tag: "Styling" },
+                        { label: "JavaScript", tag: "Logic" }
+                    ],
+                    heroCard2: [
+                        { label: "PHP (CodeIgniter)", tag: "Backend" },
+                        { label: "MySQL", tag: "Database" },
+                        { label: "MongoDB", tag: "NoSQL" },
+                        { label: "Node.js", tag: "Runtime" }
+                    ],
+                    experience: "experience",
+                    about: "about",
+                    projects: "projects",
+                    letsConnect: "let's-connect",
+                    contactDesc: "I'm always open to discuss exciting projects, collaboration opportunities, or just share ideas about technology. Let's create together!",
+                    send: '$ send --message="hello"',
+                }
+            };
+
+            function setLang(lang) {
+                // Navbar
+                document.querySelectorAll('a[href="#skills"]').forEach(el => el.innerHTML = `<span class="text-accent">01.</span>${translations[lang].skills}`);
+                document.querySelectorAll('a[href="#tentang"]').forEach(el => el.innerHTML = `<span class="text-accent">02.</span>${translations[lang].tentang}`);
+                document.querySelectorAll('a[href="#proyek"]').forEach(el => el.innerHTML = `<span class="text-accent">03.</span>${translations[lang].proyek}`);
+                document.querySelectorAll('a[href="#kontak"]').forEach(el => el.innerHTML = `<span class="text-accent">04.</span>${translations[lang].kontak}`);
+                document.querySelectorAll('a[target="_blank"]').forEach(el => { if (el.textContent.trim().toLowerCase().includes('resume')) el.textContent = translations[lang].resume; });
+
+                // Hero
+                const heroTitle = document.querySelector('#hero h2');
+                if (heroTitle) heroTitle.innerHTML = translations[lang].heroTitle;
+                const heroConsole = document.querySelector('#hero p.text-accent');
+                if (heroConsole) heroConsole.textContent = translations[lang].heroConsole;
+
+                // Section Titles
+                document.querySelectorAll('section#skills h2, section#skills h2 span:not(.text-accent)').forEach(el => el.innerHTML = `<span class="text-accent">&lt;</span>${translations[lang].skills}<span class="text-accent">/&gt;</span>`);
+                document.querySelectorAll('section#experience h2, section#experience h2 span:not(.text-accent)').forEach(el => el.innerHTML = `<span class="text-accent">&lt;</span>${translations[lang].experience}<span class="text-accent">/&gt;</span>`);
+                document.querySelectorAll('section#tentang h2, section#tentang h2 span:not(.text-accent)').forEach(el => el.innerHTML = `<span class="text-accent">&lt;</span>${translations[lang].about}<span class="text-accent">/&gt;</span>`);
+                document.querySelectorAll('section#proyek h2, section#proyek h2 span:not(.text-accent)').forEach(el => el.innerHTML = `<span class="text-accent">&lt;</span>${translations[lang].projects}<span class="text-accent">/&gt;</span>`);
+                document.querySelectorAll('section#kontak h3').forEach(el => el.innerHTML = `<span class="text-accent">&lt;</span>${translations[lang].letsConnect}<span class="text-accent">/&gt;</span>`);
+
+                // Contact Desc
+                const contactDesc = document.querySelector('section#kontak p.text-text-secondary');
+                if (contactDesc) contactDesc.textContent = translations[lang].contactDesc;
+
+                // Send Button
+                const sendBtn = document.querySelector('section#kontak a[href^="mailto:"]');
+                if (sendBtn) sendBtn.textContent = translations[lang].send;
+            }
+
+            document.getElementById('lang-id').addEventListener('click', function (e) {
+                e.preventDefault();
+                setLang('id');
+            });
+            document.getElementById('lang-en').addEventListener('click', function (e) {
+                e.preventDefault();
+                setLang('en');
+            });
+            document.getElementById('lang-id-mobile').addEventListener('click', function (e) {
+                e.preventDefault();
+                setLang('id');
+            });
+            document.getElementById('lang-en-mobile').addEventListener('click', function (e) {
+                e.preventDefault();
+                setLang('en');
+            });
+        });
+    </script>
+
+</body>
+
+</html>
